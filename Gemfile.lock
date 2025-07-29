@@ -87,6 +87,8 @@ GEM
     bindex (0.8.1)
     bootsnap (1.18.6)
       msgpack (~> 1.2)
+    bootstrap (5.3.5)
+      popper_js (>= 2.11.8, < 3)
     builder (3.3.0)
     capybara (3.40.0)
       addressable
@@ -118,6 +120,7 @@ GEM
       cgi (>= 0.3.3)
     error_highlight (0.7.0)
     erubi (1.13.1)
+    ffi (1.17.2-x86_64-linux-gnu)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.7)
@@ -169,6 +172,7 @@ GEM
       racc (~> 1.4)
     orm_adapter (0.5.0)
     pg (1.6.0-x86_64-linux)
+    popper_js (2.11.8)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -228,6 +232,14 @@ GEM
       railties (>= 5.2)
     rexml (3.4.1)
     rubyzip (2.4.1)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     securerandom (0.4.1)
     selenium-webdriver (4.32.0)
       base64 (~> 0.2)
@@ -247,6 +259,7 @@ GEM
       railties (>= 6.0.0)
     stringio (3.1.7)
     thor (1.4.0)
+    tilt (2.6.1)
     timeout (0.4.3)
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
@@ -274,6 +287,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  bootstrap
   capybara
   debug
   devise
@@ -284,6 +298,7 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.1.5, >= 7.1.5.1)
+  sassc-rails
   selenium-webdriver
   sprockets-rails
   stimulus-rails
