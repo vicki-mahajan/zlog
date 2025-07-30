@@ -1,0 +1,13 @@
+<div class="container mt-4">
+  <h4>Add Comment for: <%= @post.title %></h4>
+
+  <%= form_with model: [@post, @comment], local: true do |form| %>
+    <div class="mb-3">
+      <%= form.label :body %>
+      <%= form.text_area :body, class: "form-control", rows: 3 %>
+    </div>
+
+    <%= form.submit "Post Comment", class: "btn btn-primary" %>
+    <%= link_to "Back", post_path(@post), class: "btn btn-secondary" %>
+  <% end %>
+</div>
