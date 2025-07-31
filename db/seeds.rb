@@ -1,9 +1,43 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+require 'faker'
+Faker::Config.locale = 'en'
+
+Comment.destroy_all
+Post.destroy_all
+User.destroy_all
+
+puts "Creating 10 users..."
+users = 10.times.map do |i|
+  User.create!(
+    email: "user#{i+1}@example.com",
+    password: "password123",
+    password_confirmation: "password123"
+  )
+end
+puts "Created #{users.size} users."
+
+puts "Creating 50 posts with 1 to 4 comments each..."
+
+posts = 50.times.map do
+  title = Faker::Lorem.sentence(word_count: 6).chomp('.')
+  body = 5.times.map { Faker::Lorem.paragraph }.join("\n\n")
+  status = [:draft, :published].sample
+
+  post = Post.create!(
+    title: title,
+    body: body,
+    status: status,
+    user: users.sample
+  )
+
+  rand(1..4).times do
+    Comment.create!(
+      body: Faker::Lorem.sentence(word_count: 10),
+      user: users.sample,
+      post: post
+    )
+  end
+
+  post
+end
+
+puts "Created #{posts.size} posts and their comments."

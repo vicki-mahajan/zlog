@@ -1,0 +1,90 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand fs-3 fw-bold" href="<%= root_path %>">MiniBlog</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link fs-4" href="<%= root_path %>">Home</a>
+        </li>
+      </ul>
+      <div class="d-flex align-items-center gap-2 mx-3 my-2 my-lg-0">
+        <form class="d-flex" role="search" action="<%= action_name == 'dashboard' ? dashboard_path : posts_path %>" method="get">
+          <input class="form-control me-2" type="search" name="query" placeholder="Search posts..." aria-label="Search" value="<%= params[:query] %>">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+
+        <div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Filters
+          </button>
+          <ul class="dropdown-menu p-3" style="min-width: 250px">
+            <form action="<%= action_name == 'dashboard' ? dashboard_path : posts_path %>" method="get">
+              <input type="hidden" name="query" value="<%= params[:query] %>">
+
+              <li class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="published_only" value="1" id="published_only" <%= 'checked' if params[:published_only].present? %>>
+                <label class="form-check-label" for="published_only">Show published only</label>
+              </li>
+
+              <% if action_name == 'index' %>
+                <li class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" name="own_posts_only" value="1" id="own_posts_only" <%= 'checked' if params[:own_posts_only].present? %>>
+                  <label class="form-check-label" for="own_posts_only">Show my posts only</label>
+                </li>
+              <% end %>
+
+              <li class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" name="draft_only" value="1" id="draft_only" <%= 'checked' if params[:draft_only].present? %>>
+                <label class="form-check-label" for="draft_only">Show draft only</label>
+              </li>              
+
+              <li class="mb-2">
+                <label for="start_date" class="form-label">Start Date</label>
+                <input type="date" class="form-control" name="start_date" value="<%= params[:start_date] %>">
+              </li>
+              <li class="mb-2">
+                <label for="end_date" class="form-label">End Date</label>
+                <input type="date" class="form-control" name="end_date" value="<%= params[:end_date] %>">
+              </li>
+
+              <li class="d-grid mt-2">
+                <button type="submit" class="btn btn-sm btn-success">Apply</button>
+              </li>
+            </form>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ms-auto d-flex align-items-center gap-2">
+        <% if user_signed_in? %>
+          <%= link_to 'Dashboard', dashboard_path, class: 'btn btn-dark' %>
+
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle d-flex align-items-center gap-1" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle"></i>
+              <%= current_user.email.split('@').first %>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+              <li>
+                <%= link_to 'Account Information', edit_user_registration_path, class: 'dropdown-item' %>
+              </li>
+              <li>
+                <%= link_to 'Logout', destroy_user_session_path,
+                            data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to log out?' },
+                            class: 'dropdown-item text-danger' %>
+              </li>
+            </ul>
+          </div>
+        <% else %>
+          <%= link_to 'Sign In', new_user_session_path, class: 'btn btn-primary' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>

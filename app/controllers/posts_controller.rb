@@ -2,8 +2,33 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @posts = Post.published
-  end
+    @posts = user_signed_in? ? Post.all : Post.published
+  
+    if params[:query].present?
+      query = "%#{params[:query]}%"
+      @posts = @posts.where("title ILIKE ? OR body ILIKE ?", query, query)
+    end
+  
+    if params[:published_only].present?
+      @posts = @posts.published
+    end
+
+    if params[:draft_only].present?
+      @posts = @posts.draft
+    end
+  
+    if params[:own_posts_only].present? && user_signed_in?
+      @posts = @posts.where(user_id: current_user.id)
+    end
+  
+    if params[:start_date].present?
+      @posts = @posts.where("created_at >= ?", Date.parse(params[:start_date]))
+    end
+  
+    if params[:end_date].present?
+      @posts = @posts.where("created_at <= ?", Date.parse(params[:end_date]).end_of_day)
+    end
+  end  
 
   def show
     @post = Post.find(params[:id])
@@ -55,6 +80,28 @@ class PostsController < ApplicationController
 
   def dashboard
     @posts = current_user.posts
+  
+    if params[:query].present?
+      query = "%#{params[:query]}%"
+      @posts = @posts.where("title ILIKE ? OR body ILIKE ?", query, query)
+    end
+  
+    if params[:published_only].present?
+      @posts = @posts.published
+    end
+  
+    if params[:draft_only].present?
+      @posts = @posts.draft
+    end
+  
+    if params[:start_date].present?
+      @posts = @posts.where("created_at >= ?", Date.parse(params[:start_date]))
+    end
+  
+    if params[:end_date].present?
+      @posts = @posts.where("created_at <= ?", Date.parse(params[:end_date]).end_of_day)
+    end
+  
     render :index
   end  
 

@@ -6,7 +6,7 @@
       <div class="text-center mb-5">
         <h2 class="fw-bold">Welcome to MiniBlog!</h2>
         <p class="text-muted fs-5">A simple blogging platform to share your thoughts.</p>
-        <%= link_to "Create Post", new_post_path, class: "btn btn-success mt-3 px-4 py-2" %>
+        <%= link_to "#{user_signed_in? ? 'Create Post' : 'Get Started'}", new_post_path, class: "btn btn-success mt-3 px-4 py-2" %>
       </div>
     <% end %>
 
