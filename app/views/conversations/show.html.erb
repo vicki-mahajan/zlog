@@ -1,0 +1,30 @@
+<div class="container-fluid py-3" style="height: 100vh;">
+  <div class="row h-100 justify-content-center">
+    <div class="col-10 d-flex flex-column">
+      <div class="card shadow-sm rounded-4 h-100 overflow-hidden">
+        <div class="card-header bg-white py-3 d-flex align-items-center gap-2 border-bottom">
+          <% other_user = @conversation.users.where.not(id: current_user.id).first %>
+          <i class="bi bi-person-circle fs-3"></i>
+          <h5 class="m-0"><%= other_user.email.split('@').first %></h5>
+          <%= link_to "Back", conversations_path, class: "btn btn-sm btn-light ms-auto" %>
+        </div>
+
+        <div id="messages" class="flex-grow-1 p-3 overflow-auto" style="background: #f5f7fa;">
+          <% @messages.each do |msg| %>
+            <% mine = msg.user_id == current_user.id %>
+            <div class="d-flex mb-2 <%= mine ? 'justify-content-end' : 'justify-content-start' %>">
+              <div class="p-2 px-3 rounded-3" style="max-width: 70%; background: <%= mine ? '#d1e7ff' : 'white' %>; border: 1px solid #e0e0e0;">
+                <strong class="small d-block mb-1"><%= msg.user.email.split('@').first %></strong>
+                <%= msg.body %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="card-footer bg-white p-3 border-top">
+          <input type="text" class="form-control form-control-lg rounded-pill" placeholder="Type your message… (not working yet)">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
