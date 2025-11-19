@@ -11,24 +11,12 @@
             <% other = conversation.users.where.not(id: current_user.id).first %>
             <%= link_to conversation_path(conversation),
                         class: "list-group-item list-group-item-action py-3 d-flex align-items-center gap-3" do %>
-
               <i class="bi bi-person-circle fs-3"></i>
-
               <div class="flex-grow-1">
                 <div class="fw-semibold">
                   <%= other.email.split('@').first %>
                 </div>
-
-                <div class="small text-muted">
-                  <% if conversation.messages.any? %>
-                    <%= truncate(conversation.messages.last.body, length: 50) %> —
-                    <%= time_ago_in_words(conversation.messages.last.created_at) %> ago
-                  <% else %>
-                    No messages yet
-                  <% end %>
-                </div>
               </div>
-
             <% end %>
           <% end %>
         </div>

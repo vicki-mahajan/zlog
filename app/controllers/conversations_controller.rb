@@ -10,6 +10,7 @@ class ConversationsController < ApplicationController
 
     unless @conversation.users.include?(current_user)
       redirect_to conversations_path, alert: "Not allowed"
+      return
     end
 
     @messages = @conversation.messages.includes(:user)

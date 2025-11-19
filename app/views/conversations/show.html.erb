@@ -1,4 +1,6 @@
-<div class="container-fluid py-3" style="height: 100vh;">
+<%= turbo_stream_from @conversation %>
+
+<div class="container-fluid pt-2" style="height: 100vh;">
   <div class="row h-100 justify-content-center">
     <div class="col-10 d-flex flex-column">
       <div class="card shadow-sm rounded-4 h-100 overflow-hidden">
@@ -11,18 +13,18 @@
 
         <div id="messages" class="flex-grow-1 p-3 overflow-auto" style="background: #f5f7fa;">
           <% @messages.each do |msg| %>
-            <% mine = msg.user_id == current_user.id %>
-            <div class="d-flex mb-2 <%= mine ? 'justify-content-end' : 'justify-content-start' %>">
-              <div class="p-2 px-3 rounded-3" style="max-width: 70%; background: <%= mine ? '#d1e7ff' : 'white' %>; border: 1px solid #e0e0e0;">
-                <strong class="small d-block mb-1"><%= msg.user.email.split('@').first %></strong>
-                <%= msg.body %>
-              </div>
-            </div>
+            <%= render "messages/message", message: msg, mine: msg.user_id == current_user.id %>
           <% end %>
         </div>
 
         <div class="card-footer bg-white p-3 border-top">
-          <input type="text" class="form-control form-control-lg rounded-pill" placeholder="Type your message… (not working yet)">
+          <%= form_with model: [@conversation, @new_message], class: "d-flex gap-2" do |f| %>
+            <%= f.text_field :body,
+                  class: "form-control form-control-lg rounded-pill",
+                  placeholder: "Type your message…" %>
+            <%= f.submit "Send",
+                  class: "btn btn-primary rounded-pill px-4" %>
+          <% end %>
         </div>
       </div>
     </div>
