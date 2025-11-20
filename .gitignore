@@ -1,0 +1,46 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore all log files and temp files.
+/log/*
+!/log/.keep
+/tmp/*
+!/tmp/.keep
+
+# Ignore uploaded files in development.
+/storage/*
+!/storage/.keep
+
+# Ignore SQLite database files.
+/db/*.sqlite3
+
+# Ignore node modules.
+/node_modules
+
+# Ignore yarn and npm logs.
+/yarn-error.log
+/npm-debug.log
+/yarn-debug.log*
+
+# Ignore environment variable files.
+/.env
+/.env.*
+
+# Ignore Rails master key.
+/config/master.key
+
+# Ignore byebug command history file.
+/.byebug_history
+
+# Ignore system test screenshots.
+/tmp/screenshots
+
+# Ignore IDE or editor configs.
+.vscode/
+.idea/
+*.swp
+
+# Ignore OS files.
+.DS_Store
+Thumbs.db
+Thumbs.db
