@@ -76,3 +76,5 @@ gem "bootstrap"
 gem "sassc-rails"
 
 gem 'faker'
+
+gem "redis", "~> 5.0"
