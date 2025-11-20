@@ -2,7 +2,7 @@
 
 <div class="container-fluid pt-2" style="height: 100vh;">
   <div class="row h-100 justify-content-center">
-    <div class="col-10 d-flex flex-column">
+    <div class="col-10 d-flex flex-column" data-controller="chat">
       <div class="card shadow-sm rounded-4 h-100 overflow-hidden">
         <div class="card-header bg-white py-3 d-flex align-items-center gap-2 border-bottom">
           <% other_user = @conversation.users.where.not(id: current_user.id).first %>
@@ -11,7 +11,7 @@
           <%= link_to "Back", conversations_path, class: "btn btn-sm btn-light ms-auto" %>
         </div>
 
-        <div id="messages" class="flex-grow-1 p-3 overflow-auto" style="background: #f5f7fa;">
+        <div id="messages" data-chat-target="messages" class="flex-grow-1 p-3 overflow-auto" style="background: #f5f7fa;">
           <% @messages.each do |msg| %>
             <%= render "messages/message", message: msg, mine: msg.user_id == current_user.id %>
           <% end %>
