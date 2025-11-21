@@ -2,9 +2,24 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   connect() {
-    const el = document.getElementById("messages")
-    if (!el) return
+    this.el = document.getElementById("messages")
+    if (!this.el) return
 
-    el.scrollTop = el.scrollHeight
+    this.scrollToBottom()
+    document.addEventListener("turbo:before-stream-render", this.handleTurboRender)
+  }
+
+  disconnect() {
+    document.removeEventListener("turbo:before-stream-render", this.handleTurboRender)
+  }
+
+  handleTurboRender = (event) => {
+    if (event.target.action === "append" && event.target.target === "messages") {
+      setTimeout(() => this.scrollToBottom(), 10)
+    }
+  }
+
+  scrollToBottom() {
+    this.el.scrollTop = this.el.scrollHeight
   }
 }
