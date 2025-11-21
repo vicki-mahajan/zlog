@@ -1,0 +1,17 @@
+<%= form_with model: [conversation, message],
+              id: "message_form",
+              data: {
+                controller: "reset-focus",
+                action: "turbo:submit-end->reset-focus#reset"
+              },
+              class: "d-flex gap-2" do |f| %>
+
+  <%= f.text_field :body,
+        class: "form-control form-control-lg rounded-pill",
+        placeholder: "Type your message…",
+        data: { reset_focus_target: "input" } %>
+
+  <%= f.submit "Send",
+        class: "btn btn-primary rounded-pill px-4" %>
+
+<% end %>
