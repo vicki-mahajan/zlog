@@ -1,8 +1,8 @@
-<div class="d-flex mb-2 <%= local_assigns[:mine] ? 'justify-content-end' : 'justify-content-start' %>"
+<div class="d-flex mb-2 w-100 <%= local_assigns[:mine] ? 'justify-content-end' : 'justify-content-start' %>"
      data-message-user-id="<%= message.user_id %>">
 
   <div class="p-2 px-3 rounded-3 message-bubble"
-       style="max-width: 70%; background: <%= local_assigns[:mine] ? '#d1e7ff' : '#d7f5dd' %>; border: 1px solid #e0e0e0;">
+       style="max-width: 100%; background: <%= local_assigns[:mine] ? '#d1e7ff' : '#d7f5dd' %>; border: 1px solid #e0e0e0;">
     <strong class="small d-block mb-1 message-label">
       <%= local_assigns[:mine] ? "You" : message.user.email.split('@').first %>
     </strong>
