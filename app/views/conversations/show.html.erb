@@ -18,9 +18,20 @@
              data-chat-scroll-current-user-id-value="<%= current_user.id %>"
              class="p-3 overflow-auto w-100"
              style="background: #f5f7fa; flex: 1 1 auto; min-height: 0;">
+
+          <div id="older-messages-btn" class="text-center mb-2">
+            <% if @old_messages_exist %>
+              <%= link_to "Load older messages",
+                          load_older_messages_conversation_path(@conversation, before_id: @messages.first.id),
+                          class: "btn btn-sm btn-outline-secondary",
+                          data: { turbo_stream: true } %>
+            <% end %>
+          </div>
+
           <% @messages.each do |msg| %>
             <%= render "messages/message", message: msg, mine: msg.user_id == current_user.id %>
           <% end %>
+
         </div>
 
         <div class="card-footer bg-white p-3 border-top">

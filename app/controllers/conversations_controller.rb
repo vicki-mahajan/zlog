@@ -13,7 +13,8 @@ class ConversationsController < ApplicationController
       return
     end
 
-    @messages = @conversation.messages.includes(:user)
+    @messages = @conversation.messages.includes(:user).order(created_at: :asc).last(20)
+    @old_messages_exist = @conversation.messages.size > 20
     @new_message = Message.new
   end
 
@@ -32,5 +33,13 @@ class ConversationsController < ApplicationController
     end
 
     redirect_to conversation_path(conversation)
+  end
+
+  def load_older_messages
+    @conversation = Conversation.find(params[:id])
+    before_id = params[:before_id]
+    @messages = @conversation.messages.where("id < ?", before_id).includes(:user).order(created_at: :asc).last(20)
+    @old_messages_exist = @conversation.messages.where("id < ?", @messages.first.id).exists?
+    @new_message = Message.new
   end
 end
