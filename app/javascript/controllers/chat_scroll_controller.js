@@ -7,22 +7,51 @@ export default class extends Controller {
     this.el = this.element
     if (!this.el) return
 
+    this.isLoadingOlder = false
+    this.previousScrollHeight = null
+    this.previousScrollTop = null
+
+    this.onClick = (event) => {
+      const loadOlderLink = event.target.closest("[data-load-older-messages]")
+      if (!loadOlderLink) return
+
+      this.isLoadingOlder = true
+      this.previousScrollHeight = this.el.scrollHeight
+      this.previousScrollTop = this.el.scrollTop
+    }
+
+    this.el.addEventListener("click", this.onClick)
+
     this.styleExisting()
 
     this.scroll()
 
     this.observer = new MutationObserver((mutations) => {
+      let addedMessageNode = false
+
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
           if (node.nodeType === 1 && node.hasAttribute("data-message-user-id")) {
             this.styleMessage(node)
 
-            if (!node.nextElementSibling) {
+            addedMessageNode = true
+
+            if (!this.isLoadingOlder && !node.nextElementSibling) {
               setTimeout(() => this.scroll(), 10)
             }
           }
         })
       })
+
+      if (this.isLoadingOlder && addedMessageNode && this.previousScrollHeight !== null) {
+        const newScrollHeight = this.el.scrollHeight
+        const delta = newScrollHeight - this.previousScrollHeight
+        this.el.scrollTop = this.previousScrollTop + delta
+
+        this.isLoadingOlder = false
+        this.previousScrollHeight = null
+        this.previousScrollTop = null
+      }
     })
 
     this.observer.observe(this.el, { childList: true })
@@ -30,6 +59,9 @@ export default class extends Controller {
 
   disconnect() {
     this.observer?.disconnect()
+    if (this.onClick) {
+      this.el.removeEventListener("click", this.onClick)
+    }
   }
 
   styleExisting() {

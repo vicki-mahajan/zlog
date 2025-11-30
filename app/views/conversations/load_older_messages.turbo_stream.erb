@@ -4,7 +4,8 @@
       <%= link_to "Load older messages",
                   load_older_messages_conversation_path(@conversation, before_id: @messages.first.id),
                   class: "btn btn-sm btn-outline-secondary",
-                  data: { turbo_stream: true } %>
+                  data: { turbo_stream: true },
+                  "data-load-older-messages": true %>
     </div>
   <% else %>
     <div id="older-messages-btn"></div>
