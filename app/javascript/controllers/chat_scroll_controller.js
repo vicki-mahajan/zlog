@@ -16,7 +16,10 @@ export default class extends Controller {
         mutation.addedNodes.forEach((node) => {
           if (node.nodeType === 1 && node.hasAttribute("data-message-user-id")) {
             this.styleMessage(node)
-            setTimeout(() => this.scroll(), 10)
+
+            if (!node.nextElementSibling) {
+              setTimeout(() => this.scroll(), 10)
+            }
           }
         })
       })

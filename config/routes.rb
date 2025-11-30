@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   end
 
   resources :conversations, only: [:index, :show, :new, :create] do
+    get :load_older_messages, on: :member
     resources :messages, only: [:create]
   end
 

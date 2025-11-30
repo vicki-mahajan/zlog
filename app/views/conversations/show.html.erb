@@ -1,9 +1,10 @@
 <%= turbo_stream_from @conversation %>
 
 <div class="container-fluid pt-2"
-     style="position: fixed; top: 70px; left: 0; right: 0; bottom: 0;">
+     style="position: fixed; top: 70px; left: 0; right: 0; bottom: 0; z-index: 0;">
   <div class="row h-100 justify-content-center">
-    <div class="col-10 d-flex flex-column" style="height: 100%;">
+    <div class="col-12 col-md-10 d-flex flex-column"
+         style="height: 100%; max-width: 900px;">
       <div class="card shadow-sm rounded-4 d-flex flex-column" style="height: 100%;">
         <div class="card-header bg-white py-3 d-flex align-items-center gap-2 border-bottom">
           <% other_user = @conversation.users.where.not(id: current_user.id).first %>
@@ -15,11 +16,22 @@
         <div id="messages"
              data-controller="chat-scroll"
              data-chat-scroll-current-user-id-value="<%= current_user.id %>"
-             class="p-3 overflow-auto"
+             class="p-3 overflow-auto w-100"
              style="background: #f5f7fa; flex: 1 1 auto; min-height: 0;">
+
+          <div id="older-messages-btn" class="text-center mb-2">
+            <% if @old_messages_exist %>
+              <%= link_to "Load older messages",
+                          load_older_messages_conversation_path(@conversation, before_id: @messages.first.id),
+                          class: "btn btn-sm btn-outline-secondary",
+                          data: { turbo_stream: true } %>
+            <% end %>
+          </div>
+
           <% @messages.each do |msg| %>
             <%= render "messages/message", message: msg, mine: msg.user_id == current_user.id %>
           <% end %>
+
         </div>
 
         <div class="card-footer bg-white p-3 border-top">

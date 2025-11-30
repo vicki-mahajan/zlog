@@ -1,0 +1,18 @@
+<%= turbo_stream.replace "older-messages-btn" do %>
+  <% if @old_messages_exist %>
+    <div id="older-messages-btn" class="text-center mb-2">
+      <%= link_to "Load older messages",
+                  load_older_messages_conversation_path(@conversation, before_id: @messages.first.id),
+                  class: "btn btn-sm btn-outline-secondary",
+                  data: { turbo_stream: true } %>
+    </div>
+  <% else %>
+    <div id="older-messages-btn"></div>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.after "older-messages-btn" do %>
+  <% @messages.each do |msg| %>
+    <%= render "messages/message", message: msg, mine: msg.user_id == current_user.id %>
+  <% end %>
+<% end %>
