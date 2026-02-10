@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h4>Add Comment for: <%= @post.title %></h4>
+  <h4>Add Comment for: <%= @post.body.truncate(30) %></h4>
 
   <%= form_with model: [@post, @comment], local: true do |form| %>
     <div class="mb-3">
